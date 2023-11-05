@@ -1,15 +1,15 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect } from "react";
+import { ReactNode, useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { TUserSchema, userSchema } from "./schemas/userSchema";
 // There are 2 core strategies
 //1. Disable button till data is fully valid
 //2. Display error messages as you go
 
-const ErrorMessageFromForm = ({ message }: { message: string }) => {
-  return <p className="text-red-500"> {message}</p>;
+const ErrorMessageFromForm = ({ children }: { children: ReactNode | any }) => {
+  return <p className="text-red-500"> {children}</p>;
 };
 
 const Form = () => {
@@ -53,7 +53,9 @@ const Form = () => {
             placeholder="First Name"
           />
           {errors["firstName"]?.message && (
-            <ErrorMessageFromForm message={errors["firstName"]?.message} />
+            <ErrorMessageFromForm>
+              {errors["firstName"]?.message}
+            </ErrorMessageFromForm>
           )}
         </div>
         <div className="md:ml-2">
@@ -74,7 +76,9 @@ const Form = () => {
             }}
           />
           {errors["lastName"]?.message && (
-            <ErrorMessageFromForm message={errors["lastName"]?.message} />
+            <ErrorMessageFromForm>
+              {errors["lastName"]?.message}
+            </ErrorMessageFromForm>
           )}
         </div>
       </div>
