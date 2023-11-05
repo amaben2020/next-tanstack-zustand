@@ -4,6 +4,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { TUserSchema, userSchema } from "./schemas/userSchema";
+// There are 2 core strategies
+//1. Disable button till data is fully valid
+//2. Display error messages as you go
+
+const ErrorMessageFromForm = ({ message }: { message: string }) => {
+  return <p className="text-red-500"> {message}</p>;
+};
 
 const Form = () => {
   const {
@@ -25,6 +32,7 @@ const Form = () => {
   }, [setFocus]);
 
   const onSubmit: SubmitHandler<TUserSchema> = (data) => {
+    alert("Sent");
     console.log(data);
   };
   return (
@@ -45,7 +53,7 @@ const Form = () => {
             placeholder="First Name"
           />
           {errors["firstName"]?.message && (
-            <p className="text-red-500"> Insert Name</p>
+            <ErrorMessageFromForm message={errors["firstName"]?.message} />
           )}
         </div>
         <div className="md:ml-2">
@@ -65,6 +73,9 @@ const Form = () => {
               border: dirtyFields.lastName ? "3px solid green" : "",
             }}
           />
+          {errors["lastName"]?.message && (
+            <ErrorMessageFromForm message={errors["lastName"]?.message} />
+          )}
         </div>
       </div>
       <div className="mb-4">
@@ -125,7 +136,7 @@ const Form = () => {
         <button
           className="w-full px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700 focus:outline-none focus:shadow-outline disabled:bg-gray-500 disabled:text-white"
           type="submit"
-          disabled={!isValid}
+          // disabled={!isValid}
         >
           Register Account
         </button>
