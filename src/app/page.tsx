@@ -1,4 +1,5 @@
-import Form from "@/components/sections/form/form";
+"use client";
+import Toggle from "@/components/elements/toggle/Toggle";
 
 export default function Home() {
   return (
@@ -7,7 +8,9 @@ export default function Home() {
       {/* <PostList /> */}
       {/* <TodoForm /> */}
 
-      <Form />
+      {/* <Form /> */}
+
+      {Toggle()}
     </main>
   );
 }
