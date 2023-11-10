@@ -58,7 +58,11 @@ export default function Home() {
       ))}
 
       <div className="my-10 rounded-lg border">
-        <input type="text" onChange={(e) => setTitle(e.target.value)} />
+        <input
+          type="text"
+          className="text-black"
+          onChange={(e) => setTitle(e.target.value)}
+        />
         <input
           type="checkbox"
           checked={isCompleted}
