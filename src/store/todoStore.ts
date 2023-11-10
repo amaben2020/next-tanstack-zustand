@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { devtools, persist } from "zustand/middleware";
 // set is a function that returns an object
 type TTodo = {
   id: string | number;
@@ -7,12 +8,19 @@ type TTodo = {
 };
 type TTodos = { todos: TTodo[]; addTodo: (todo: TTodo) => void };
 
-const todoStore = create<TTodos>()((set) => ({
-  todos: [],
-  addTodo: (todo: TTodo) =>
-    set((state: TTodos) => ({
-      todos: [...state.todos, todo],
-    })),
-}));
+const todoStore = create<TTodos>()(
+  devtools(
+    persist(
+      (set) => ({
+        todos: [],
+        addTodo: (todo: TTodo) =>
+          set((state: TTodos) => ({
+            todos: [...state.todos, todo],
+          })),
+      }),
+      { name: "todoStore" },
+    ),
+  ),
+);
 
 export default todoStore;
