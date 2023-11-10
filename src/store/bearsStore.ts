@@ -9,7 +9,7 @@ type TBearState = {
 const bearStore = create<TBearState>()((set) => ({
   bears: 0,
   increasePopulation: () =>
-    set((state: TBearState) => ({ bears: state.bears + 1 })),
+    set((state: Pick<TBearState, "bears">) => ({ bears: state.bears + 1 })),
   decreasePopulation: () =>
     set((state: TBearState) => {
       if (state.bears === 0) {
