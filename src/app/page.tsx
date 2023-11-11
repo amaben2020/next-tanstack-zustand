@@ -1,5 +1,4 @@
 "use client";
-import Toggle from "@/components/elements/toggle/Toggle";
 import { useCombinedStore } from "@/store";
 import useBearStore from "@/store/bearsStore";
 import useCartStore from "@/store/cartStore";
@@ -28,6 +27,8 @@ export default function Home() {
     pokemon.fetchPokemon();
   }, [pokemon.fetchPokemon]);
 
+  const [toggler, setToggler] = useState(false);
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       {/* <Todo /> */}
@@ -36,9 +37,9 @@ export default function Home() {
 
       {/* <Form /> */}
 
-      <Toggle />
+      {/* <Toggle /> */}
 
-      {JSON.stringify(pokemon.pokemon)}
+      {/* {JSON.stringify(pokemon.pokemon)} */}
 
       {bears?.bears}
       <button onClick={bears.increasePopulation}>+</button>
@@ -135,8 +136,7 @@ export default function Home() {
             {Number(cartItemQty)}
 
             <button onClick={() => cart.editCartItem(p.id, cartItemQty)}>
-              {" "}
-              Edit Cart{" "}
+              Edit Cart
             </button>
           </div>
         );
