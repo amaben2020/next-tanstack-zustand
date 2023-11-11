@@ -1,5 +1,6 @@
 "use client";
-import bearStore from "@/store/bearsStore";
+import Toggle from "@/components/elements/toggle/Toggle";
+import useBearStore from "@/store/bearsStore";
 import todoStore from "@/store/todoStore";
 import { useId, useState } from "react";
 
@@ -9,7 +10,7 @@ type TBearsZustandState = {
   decreasePopulation: () => void;
 };
 export default function Home() {
-  const bears = bearStore((state) => state);
+  const bears = useBearStore((state) => state);
   const todos = todoStore((state) => state);
   const [title, setTitle] = useState("");
   const [isCompleted, setIsCompleted] = useState(false);
@@ -22,6 +23,8 @@ export default function Home() {
       {/* <TodoForm /> */}
 
       {/* <Form /> */}
+
+      <Toggle />
 
       {bears?.bears}
       <button onClick={bears.increasePopulation}>+</button>

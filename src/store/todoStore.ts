@@ -1,5 +1,6 @@
+import { mountStoreDevtool } from "simple-zustand-devtools";
 import { create } from "zustand";
-import { devtools } from "zustand/middleware";
+import { devtools, persist } from "zustand/middleware";
 // set is a function that returns an object
 type TTodo = {
   id: number;
@@ -15,44 +16,55 @@ type TTodos = {
 
 const todoStore = create<TTodos>()(
   devtools(
-    // persist(
-    (set) => ({
-      todos: [],
-      addTodo: (todo: TTodo) =>
-        set((state: TTodos) => ({
-          todos: [...state.todos, todo],
-        })),
-      editTodo: (todo: TTodo, id: number) =>
-        set((state: TTodos) => {
-          const updatedTodo = state.todos.map((t) => {
-            if (t.id == id) {
+    persist(
+      (set) => ({
+        todos: [],
+        addTodo: (todo: TTodo) =>
+          set((state: TTodos) => ({
+            todos: [...state.todos, todo],
+          })),
+        editTodo: (todo: TTodo, id: number) =>
+          set((state: Partial<TTodos>) => {
+            // const updatedTodo = state.todos.map((t) => {
+            //   if (t.id == id) {
+            //     return {
+            //       id: todo.id,
+            //       title: todo.title,
+            //       completed: todo.completed,
+            //     };
+            //   } else {
+            //     return { ...t };
+            //   }
+            // });
+
+            const updatedTodo = state?.todos.find((elem) => elem.id === id);
+
+            if (updatedTodo) {
+              updatedTodo.title = todo.title;
+              updatedTodo.completed = todo.completed;
+
               return {
-                id: todo.id,
-                title: todo.title,
-                completed: todo.completed,
+                todos: state.todos,
               };
-            } else {
-              return { ...t };
             }
-          });
+          }),
 
-          return {
-            todos: updatedTodo,
-          };
-        }),
+        deleteTodo: (id: number) =>
+          set((state) => {
+            const filteredTodo = state.todos.filter((todo) => todo.id !== id);
 
-      deleteTodo: (id: number) =>
-        set((state) => {
-          const filteredTodo = state.todos.filter((todo) => todo.id !== id);
-
-          return {
-            todos: filteredTodo,
-          };
-        }),
-    }),
-    { name: "todoStore" },
-    // ),
+            return {
+              todos: filteredTodo,
+            };
+          }),
+      }),
+      { name: "todoStore" },
+    ),
   ),
 );
 
 export default todoStore;
+
+if (process.env.NODE_ENV === "development") {
+  mountStoreDevtool("todoStore", todoStore);
+}

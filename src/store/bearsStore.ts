@@ -1,3 +1,4 @@
+import { mountStoreDevtool } from "simple-zustand-devtools";
 import { create } from "zustand";
 
 type TBearState = {
@@ -6,7 +7,7 @@ type TBearState = {
   decreasePopulation: () => void;
 };
 
-const bearStore = create<TBearState>()((set) => ({
+const useBearStore = create<TBearState>()((set) => ({
   bears: 0,
   increasePopulation: () =>
     set((state: Pick<TBearState, "bears">) => ({ bears: state.bears + 1 })),
@@ -23,4 +24,8 @@ const bearStore = create<TBearState>()((set) => ({
   removeAllBears: () => set({ bears: 0 }),
 }));
 
-export default bearStore;
+export default useBearStore;
+
+if (process.env.NODE_ENV === "development") {
+  mountStoreDevtool("bearStore", useBearStore);
+}

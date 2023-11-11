@@ -1,7 +1,9 @@
 "use client";
+import todoStore from "@/store/todoStore";
 import { useCallback, useEffect, useState } from "react";
 
 const Toggle = () => {
+  const todos = todoStore((state) => state.todos);
   const [isOn, setIsOn] = useState(false);
   const [title, setTitle] = useState("");
   const handleToggle = useCallback(() => {
@@ -17,23 +19,13 @@ const Toggle = () => {
   return (
     <div
       style={{
-        background: isOn ? "red" : "white",
-        height: "100vh",
+        // background: isOn ? "red" : "white",
+        height: "10vh",
         width: "70vw",
       }}
     >
       Toggle
-      <button
-        onClick={handleToggle}
-        className="rounded-full border p-10 bg-black text-white"
-      >
-        {isOn ? "Off" : "On"}
-      </button>
-      <input
-        className="p-10 border border-black w-2/3 text-black"
-        type="text"
-        onChange={(e) => setTitle(e.target.value)}
-      />
+      {JSON.stringify(todos)}
     </div>
   );
 };
