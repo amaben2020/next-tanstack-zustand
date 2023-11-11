@@ -1,8 +1,10 @@
 "use client";
 import Toggle from "@/components/elements/toggle/Toggle";
 import useBearStore from "@/store/bearsStore";
+import useCartStore from "@/store/cartStore";
 import todoStore from "@/store/todoStore";
 import { useId, useState } from "react";
+import { products } from "./data/product";
 
 type TBearsZustandState = {
   bears: number;
@@ -15,6 +17,8 @@ export default function Home() {
   const [title, setTitle] = useState("");
   const [isCompleted, setIsCompleted] = useState(false);
   const id = useId();
+
+  const cart = useCartStore((state) => state);
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
@@ -72,6 +76,7 @@ export default function Home() {
           onChange={(e) => setIsCompleted(e.target.checked)}
         />
         <button
+          className="border my-3 px-5 py-3 bg-white text-black"
           onClick={() =>
             todos.addTodo({
               id: Math.random(),
@@ -83,6 +88,23 @@ export default function Home() {
           Add Todo
         </button>
       </div>
+
+      {JSON.stringify(cart.cart)}
+
+      {products.map((p) => {
+        return (
+          <div key={p.id}>
+            <p>{p.title}</p>
+            <p>${p.price}</p>
+            <p>{p.quantity}</p>
+
+            <button onClick={() => cart.addToCart(p)}>Add to cart</button>
+            <button onClick={() => cart.deleteFromCart(p.id)}>
+              Delete From cart
+            </button>
+          </div>
+        );
+      })}
     </main>
   );
 }
