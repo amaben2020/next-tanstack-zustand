@@ -1,9 +1,10 @@
 "use client";
 import Toggle from "@/components/elements/toggle/Toggle";
+import { useCombinedStore } from "@/store";
 import useBearStore from "@/store/bearsStore";
 import useCartStore from "@/store/cartStore";
 import todoStore from "@/store/todoStore";
-import { useId, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import { products } from "./data/product";
 
 type TBearsZustandState = {
@@ -21,6 +22,12 @@ export default function Home() {
 
   const cart = useCartStore((state) => state);
 
+  const pokemon = useCombinedStore((state) => state);
+
+  useEffect(() => {
+    pokemon.fetchPokemon();
+  }, [pokemon.fetchPokemon]);
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       {/* <Todo /> */}
@@ -30,6 +37,8 @@ export default function Home() {
       {/* <Form /> */}
 
       <Toggle />
+
+      {JSON.stringify(pokemon.pokemon)}
 
       {bears?.bears}
       <button onClick={bears.increasePopulation}>+</button>
