@@ -2,69 +2,76 @@ import { mountStoreDevtool } from "simple-zustand-devtools";
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
 // set is a function that returns an object
-type TTodo = {
-  id: number;
-  title: string;
-  completed: boolean;
-};
-type TTodos = {
-  todos: TTodo[];
-  addTodo: (todo: TTodo) => void;
-  editTodo: (todo: TTodo, id: number) => void;
-  deleteTodo: (id: number) => void;
+
+type TStep1 = { email: string; name: string; password: string };
+type TStep2 = { token: number; isOutside: boolean; address: string };
+type TStep3 = { company: string; zip: string; country: string };
+
+type TFormData = { firstStep: TStep1 } & { secondStep: TStep2 } & {
+  thirdStep: TStep3;
 };
 
-const todoStore = create<TTodos>()(
+const useFormDataStore = create<TFormData>()(
   devtools(
     persist(
       (set) => ({
-        todos: [],
-        addTodo: (todo: TTodo) =>
-          set((state: TTodos) => ({
-            todos: [...state.todos, todo],
+        firstStep: {
+          email: "",
+          name: "",
+          password: "",
+        },
+        secondStep: {
+          token: 0,
+          isOutside: false,
+          address: "",
+        },
+        thirdStep: {
+          company: "",
+          zip: "",
+          country: "",
+        },
+        updateFirstStep: (firstStep: {
+          email: string;
+          name: string;
+          password: string;
+        }) =>
+          set((state: TFormData) => ({
+            firstStep: {
+              ...state.firstStep,
+              firstStep,
+            },
           })),
-        editTodo: (todo: TTodo, id: number) =>
-          set((state: Partial<TTodos>) => {
-            // const updatedTodo = state.todos.map((t) => {
-            //   if (t.id == id) {
-            //     return {
-            //       id: todo.id,
-            //       title: todo.title,
-            //       completed: todo.completed,
-            //     };
-            //   } else {
-            //     return { ...t };
-            //   }
-            // });
-
-            const updatedTodo = state?.todos.find((elem) => elem.id === id);
-
-            if (updatedTodo) {
-              updatedTodo.title = todo.title;
-              updatedTodo.completed = todo.completed;
-
-              return {
-                todos: state.todos,
-              };
-            }
-          }),
-
-        deleteTodo: (id: number) =>
-          set((state) => {
-            const filteredTodo = state.todos.filter((todo) => todo.id !== id);
-
-            return {
-              todos: filteredTodo,
-            };
-          }),
+        updateSecondStep: (secondStep: {
+          token: number;
+          isOutside: boolean;
+          address: string;
+        }) =>
+          set((state: TFormData) => ({
+            secondStep: {
+              ...state.secondStep,
+              secondStep,
+            },
+          })),
+        updateThirdStep: (thirdStep: {
+          company: string;
+          zip: string;
+          country: string;
+        }) =>
+          set((state: TFormData) => ({
+            thirdStep: {
+              ...state.thirdStep,
+              thirdStep,
+            },
+          })),
       }),
-      { name: "todoStore" },
+
+      { name: "useFormDataStore" },
     ),
   ),
 );
 
-export default todoStore;
+export default useFormDataStore;
 
 if (process.env.NODE_ENV === "development") {
-  mountStoreDevtool("todoStore", todoStore);
+  mountStoreDevtool("useFormDataStore", useFormDataStore);
 }
