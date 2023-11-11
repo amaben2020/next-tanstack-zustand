@@ -16,6 +16,7 @@ export default function Home() {
   const todos = todoStore((state) => state);
   const [title, setTitle] = useState("");
   const [isCompleted, setIsCompleted] = useState(false);
+  const [cartItemQty, setCartItemQty] = useState(1);
   const id = useId();
 
   const cart = useCartStore((state) => state);
@@ -101,6 +102,32 @@ export default function Home() {
             <button onClick={() => cart.addToCart(p)}>Add to cart</button>
             <button onClick={() => cart.deleteFromCart(p.id)}>
               Delete From cart
+            </button>
+
+            <button
+              className="p-4 bg-white text-black"
+              onClick={() => setCartItemQty((p) => p + 1)}
+            >
+              +
+            </button>
+            <button
+              className="p-4 bg-white text-black"
+              onClick={() =>
+                setCartItemQty((p) => {
+                  if (p === 0) {
+                    return 0;
+                  }
+                  return p - 1;
+                })
+              }
+            >
+              -
+            </button>
+            {Number(cartItemQty)}
+
+            <button onClick={() => cart.editCartItem(p.id, cartItemQty)}>
+              {" "}
+              Edit Cart{" "}
             </button>
           </div>
         );
