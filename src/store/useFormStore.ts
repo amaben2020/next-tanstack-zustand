@@ -9,6 +9,7 @@ type TStep3 = { company: string; zip: string; country: string };
 
 type TFormData = { firstStep: TStep1 } & { secondStep: TStep2 } & {
   thirdStep: TStep3;
+  updateFirstStep: any;
 };
 
 const useFormDataStore = create<TFormData>()(
@@ -30,6 +31,7 @@ const useFormDataStore = create<TFormData>()(
           zip: "",
           country: "",
         },
+        step: 0,
         updateFirstStep: (firstStep: {
           email: string;
           name: string;
@@ -37,7 +39,7 @@ const useFormDataStore = create<TFormData>()(
         }) =>
           set((state: TFormData) => ({
             firstStep: {
-              ...state.firstStep,
+              // ...state.firstStep,
               firstStep,
             },
           })),
@@ -62,6 +64,14 @@ const useFormDataStore = create<TFormData>()(
               ...state.thirdStep,
               thirdStep,
             },
+          })),
+        incrementStep: () =>
+          set((state) => ({
+            step: state.step + 1,
+          })),
+        decrementStep: () =>
+          set((state) => ({
+            step: state.step - 1,
           })),
       }),
 
