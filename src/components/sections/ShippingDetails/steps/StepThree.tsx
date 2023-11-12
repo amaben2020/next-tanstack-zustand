@@ -2,12 +2,13 @@
 import useFormDataStore from "@/store/useFormStore";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { stepOne } from "../schema/stepOne";
+import { countryListCreate } from "../data";
+import { stepThree } from "../schema/stepThree";
 
 //TODO: create a step counter that increments or decrements the steps
 
-const StepOne = () => {
-  const { firstStep, updateFirstStep, incrementStep } = useFormDataStore(
+const StepThree = () => {
+  const { thirdStep, updateThirdStep, incrementStep } = useFormDataStore(
     (state) => state,
   );
 
@@ -16,15 +17,15 @@ const StepOne = () => {
     handleSubmit,
     formState: { isValid, errors },
   } = useForm({
-    resolver: zodResolver(stepOne),
+    resolver: zodResolver(stepThree),
   });
 
   const onSubmit = (data: any) => {
     console.log("DATA", data);
-    updateFirstStep({
-      email: data.email,
-      name: data.name,
-      password: data.password,
+    updateThirdStep({
+      company: data.company,
+      zip: data.zip,
+      country: data.country,
     });
     incrementStep();
   };
@@ -35,11 +36,11 @@ const StepOne = () => {
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col gap-6 items-center justify-center m-auto"
       >
-        {JSON.stringify(firstStep)}
+        {JSON.stringify(thirdStep)}
         <div className=" w-full">
-          <label className="block text-start my-2"> Name</label>{" "}
+          <label className="block text-start my-2"> Company</label>{" "}
           <input
-            {...register("name")}
+            {...register("company")}
             className="w-full p-3 rounded-md text-gray-700"
             type="text"
           />
@@ -51,45 +52,32 @@ const StepOne = () => {
         </div>
 
         <div className=" w-full">
-          <label className="block text-start my-2"> Email</label>{" "}
+          <label className="block text-start my-2"> zip</label>{" "}
           <input
-            {...register("email")}
+            {...register("zip")}
             className="w-full p-3 rounded-md text-gray-700"
-            type="text"
+            type="number"
           />
           {errors && (
             <p className="text-red-700 my-2 text-left">
-              {errors?.email?.message}
+              {errors?.zip?.message}
             </p>
           )}
         </div>
         <div className=" w-full">
-          <label className="block text-start my-2"> Password</label>{" "}
-          <input
-            {...register("password")}
-            className="w-full p-3 rounded-md text-gray-700"
-            type="text"
-          />
+          <label className="block text-start my-2"> Select Country</label>{" "}
+          <select {...register("country")}>
+            {countryListCreate.map((c) => (
+              <option key={c}>{c} </option>
+            ))}
+          </select>
           {errors && (
             <p className="text-red-700 my-2 text-left">
-              {errors?.password?.message}
+              {errors?.country?.message}
             </p>
           )}
         </div>
 
-        <div className=" w-full">
-          <label className="block text-start my-2"> Confirm Password</label>{" "}
-          <input
-            {...register("confirmPassword")}
-            className="w-full p-3 rounded-md text-gray-700"
-            type="text"
-          />
-          {errors && (
-            <p className="text-red-700 my-2 text-left">
-              {errors?.confirmPassword?.message}
-            </p>
-          )}
-        </div>
         <button
           disabled={!isValid}
           type="submit"
@@ -102,4 +90,4 @@ const StepOne = () => {
   );
 };
 
-export default StepOne;
+export default StepThree;

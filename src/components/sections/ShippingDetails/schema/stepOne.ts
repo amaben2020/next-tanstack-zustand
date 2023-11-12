@@ -19,4 +19,4 @@ export const stepOne = z
     message: "Password don't match",
   });
 
-export type TUserSchema = z.infer<typeof userSchema>;
+export type TUserSchema = z.infer<typeof stepOne>;
