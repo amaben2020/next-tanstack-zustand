@@ -8,9 +8,8 @@ import { stepThree } from "../schema/stepThree";
 //TODO: create a step counter that increments or decrements the steps
 
 const StepThree = () => {
-  const { thirdStep, updateThirdStep, incrementStep } = useFormDataStore(
-    (state) => state,
-  );
+  const { thirdStep, updateThirdStep, decrementStep, incrementStep } =
+    useFormDataStore((state) => state);
 
   const {
     register,
@@ -77,6 +76,14 @@ const StepThree = () => {
             </p>
           )}
         </div>
+
+        <button
+          type="submit"
+          onClick={() => decrementStep()}
+          className="px-10 py-3 border cursor-pointer disabled:border-red-600"
+        >
+          Prev
+        </button>
 
         <button
           disabled={!isValid}

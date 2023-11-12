@@ -7,9 +7,8 @@ import { stepTwo } from "../schema/stepTwo";
 //TODO: create a step counter that increments or decrements the steps
 
 const StepTwo = () => {
-  const { secondStep, updateSecondStep, incrementStep } = useFormDataStore(
-    (state) => state,
-  );
+  const { secondStep, updateSecondStep, decrementStep, incrementStep } =
+    useFormDataStore((state) => state);
 
   const {
     register,
@@ -41,6 +40,7 @@ const StepTwo = () => {
             {...register("token")}
             className="w-full p-3 rounded-md text-gray-700"
             type="text"
+            placeholder={String(secondStep.token)}
           />
           {errors && (
             <p className="text-red-700 my-2 text-left">
@@ -68,6 +68,7 @@ const StepTwo = () => {
             {...register("address")}
             className="w-full p-3 rounded-md text-gray-700"
             type="text"
+            placeholder={secondStep.address}
           />
           {errors && (
             <p className="text-red-700 my-2 text-left">
@@ -78,8 +79,8 @@ const StepTwo = () => {
 
         <div className="flex p-4 gap-5">
           <button
-            disabled={!isValid}
             type="submit"
+            onClick={() => decrementStep()}
             className="px-10 py-3 border cursor-pointer disabled:border-red-600"
           >
             Prev

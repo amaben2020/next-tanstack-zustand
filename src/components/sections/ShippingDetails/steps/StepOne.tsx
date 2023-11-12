@@ -20,11 +20,10 @@ const StepOne = () => {
   });
 
   const onSubmit = (data: any) => {
-    console.log("DATA", data);
     updateFirstStep({
-      email: data.email,
-      name: data.name,
-      password: data.password,
+      email: data.email ?? firstStep.email,
+      name: data.name ?? firstStep.name,
+      password: data.password ?? firstStep.password,
     });
     incrementStep();
   };
@@ -42,6 +41,8 @@ const StepOne = () => {
             {...register("name")}
             className="w-full p-3 rounded-md text-gray-700"
             type="text"
+            // value={firstStep.name ?? ""}
+            placeholder={firstStep.name ?? ""}
           />
           {/* {errors && (
             <p className="text-red-700 my-2 text-left">
@@ -55,7 +56,9 @@ const StepOne = () => {
           <input
             {...register("email")}
             className="w-full p-3 rounded-md text-gray-700"
-            type="text"
+            type="email"
+            // value={firstStep.email ?? ""}
+            placeholder={firstStep.email ?? ""}
           />
           {errors && (
             <p className="text-red-700 my-2 text-left">
@@ -68,7 +71,9 @@ const StepOne = () => {
           <input
             {...register("password")}
             className="w-full p-3 rounded-md text-gray-700"
-            type="text"
+            type="password"
+            // value={firstStep.password ?? ""}
+            placeholder={firstStep.password ?? ""}
           />
           {errors && (
             <p className="text-red-700 my-2 text-left">
@@ -82,7 +87,9 @@ const StepOne = () => {
           <input
             {...register("confirmPassword")}
             className="w-full p-3 rounded-md text-gray-700"
-            type="text"
+            type="password"
+            // value={firstStep.password ?? ""}
+            placeholder={firstStep.password ?? ""}
           />
           {errors && (
             <p className="text-red-700 my-2 text-left">
