@@ -1,0 +1,7 @@
+  // const authenticate = async () => {
+  //   try {
+  //     const { data } = await axios.get(
+  //       `https://unsplash.com/oauth/authorize?client_id=${accessKey}&redirect_uri=urn:ietf:wg:oauth:2.0:oob&response_type=code&scope=public`,
+  //     );
+  //   } catch (error) {}
+  // };
