@@ -17,12 +17,14 @@ const Unsplash = () => {
     images: Array<string>;
     query: string;
     total_pages: number;
+    page: number;
   };
 
   const INITIAL_STATE: TInitialState = {
     images: [],
     query: "",
     total_pages: 1,
+    page: 1,
   };
 
   const reducer = (state: TInitialState, action: TAction) => {
@@ -52,13 +54,12 @@ const Unsplash = () => {
     fetchImages();
   }, []);
 
-  console.log(data);
-
-  console.log("State", state);
   return (
     <div>
       Unsplash
       <div>
+        <h3 className="text-white"> Query: {state.query} </h3>
+
         <Search dispatch={dispatch} value={state.query} />
       </div>
     </div>
