@@ -1,7 +1,7 @@
 "use client";
 import Search from "@/components/elements/search";
 import axios from "axios";
-import { useCallback, useEffect, useReducer, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 
 const baseURL = `https://api.unsplash.com/search/photos?client_id=vCRa8wxs48KESXSylxE84-WoUzK6l8YwpKCdVVfLiBI&page=1&query=office`;
 
@@ -52,14 +52,14 @@ const Unsplash = () => {
     fetchImages();
   }, []);
 
-  const dispatchedQuery = useCallback(() => dispatch, []);
-
   console.log(data);
+
+  console.log("State", state);
   return (
     <div>
       Unsplash
       <div>
-        <Search dispatch={dispatchedQuery} />
+        <Search dispatch={dispatch} value={state.query} />
       </div>
     </div>
   );
