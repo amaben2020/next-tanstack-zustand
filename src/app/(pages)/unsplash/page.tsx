@@ -1,12 +1,15 @@
 "use client";
 import Search from "@/components/elements/search";
 import axios from "axios";
-import { useEffect, useReducer, useState } from "react";
+import { useCallback, useEffect, useReducer, useState } from "react";
 
 const baseURL = `https://api.unsplash.com/search/photos?client_id=vCRa8wxs48KESXSylxE84-WoUzK6l8YwpKCdVVfLiBI&page=1&query=office`;
 
 console.log(process.env.UNSPLASH_ACCESS_KEY);
-
+export type TAction = {
+  type: "SET_QUERY";
+  payload: string;
+};
 const Unsplash = () => {
   const [data, setData] = useState([]);
 
@@ -16,13 +19,6 @@ const Unsplash = () => {
     total_pages: number;
   };
 
-  type TAction = {
-    type: "SET_QUERY";
-    payload: {
-      query: string;
-    };
-  };
-
   const INITIAL_STATE: TInitialState = {
     images: [],
     query: "",
@@ -30,8 +26,6 @@ const Unsplash = () => {
   };
 
   const reducer = (state: TInitialState, action: TAction) => {
-    console.log(state);
-
     switch (action.type) {
       case "SET_QUERY": {
         return {
@@ -44,6 +38,7 @@ const Unsplash = () => {
       }
     }
   };
+
   const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
 
   console.log(state);
@@ -57,12 +52,14 @@ const Unsplash = () => {
     fetchImages();
   }, []);
 
+  const dispatchedQuery = useCallback(() => dispatch, []);
+
   console.log(data);
   return (
     <div>
       Unsplash
       <div>
-        <Search />
+        <Search dispatch={dispatchedQuery} />
       </div>
     </div>
   );
